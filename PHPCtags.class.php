@@ -243,7 +243,14 @@ error_reporting(E_ALL);
                     $line = $node->getLine();
                     break;
             }
-        } else {
+        }  elseif ($node instanceof PhpParser\Node\Expr\MethodCall) {
+            $kind = 'f';
+            $name = $node->name;
+            $line = $node->getLine();
+            foreach ($node as $subNode) {
+                $this->struct($subNode, FALSE, array('function' => $name));
+            }
+        }  else {
             // we don't care the rest of them.
         }
 
